@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IngestRouteImport } from './routes/ingest'
 import { Route as QuarantineRouteImport } from './routes/quarantine'
+import { Route as TigersIndexRouteImport } from './routes/tigers.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -28,35 +29,44 @@ const QuarantineRoute = QuarantineRouteImport.update({
   path: '/quarantine',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TigersIndexRoute = TigersIndexRouteImport.update({
+  id: '/tigers/',
+  path: '/tigers/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
   '/quarantine': typeof QuarantineRoute
+  '/tigers/': typeof TigersIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
   '/quarantine': typeof QuarantineRoute
+  '/tigers': typeof TigersIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
   '/quarantine': typeof QuarantineRoute
+  '/tigers/': typeof TigersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ingest' | '/quarantine'
+  fullPaths: '/' | '/ingest' | '/quarantine' | '/tigers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ingest' | '/quarantine'
-  id: '__root__' | '/' | '/ingest' | '/quarantine'
+  to: '/' | '/ingest' | '/quarantine' | '/tigers'
+  id: '__root__' | '/' | '/ingest' | '/quarantine' | '/tigers/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   IngestRoute: typeof IngestRoute
   QuarantineRoute: typeof QuarantineRoute
+  TigersIndexRoute: typeof TigersIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -82,6 +92,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof QuarantineRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/tigers/': {
+      id: '/tigers/'
+      path: '/tigers'
+      fullPath: '/tigers/'
+      preLoaderRoute: typeof TigersIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -89,6 +106,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   IngestRoute: IngestRoute,
   QuarantineRoute: QuarantineRoute,
+  TigersIndexRoute: TigersIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
