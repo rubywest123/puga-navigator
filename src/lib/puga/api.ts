@@ -18,7 +18,7 @@ export function setApiBase(url: string) {
 export interface Dataset {
   source: "live" | "demo";
   baseUrl: string | null;
-  error?: string;
+  error?: string | undefined;
   cameras: Camera[];
   tigers: Tiger[];
   sightings: Sighting[];
@@ -38,7 +38,7 @@ const demoDataset = (error?: string): Dataset => ({
 });
 
 async function get<T>(base: string, path: string, signal?: AbortSignal): Promise<T> {
-  const res = await fetch(`${base}${path}`, { signal });
+  const res = await fetch(`${base}${path}`, signal ? { signal } : {});
   if (!res.ok) throw new Error(`${path} → ${res.status}`);
   return (await res.json()) as T;
 }
