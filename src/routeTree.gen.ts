@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as IngestRouteImport } from './routes/ingest'
+import { Route as OccupancyRouteImport } from './routes/occupancy'
 import { Route as QuarantineRouteImport } from './routes/quarantine'
 import { Route as TigersIndexRouteImport } from './routes/tigers.index'
 import { Route as TigersTigerIdRouteImport } from './routes/tigers.$tigerId'
@@ -23,6 +24,11 @@ const IndexRoute = IndexRouteImport.update({
 const IngestRoute = IngestRouteImport.update({
   id: '/ingest',
   path: '/ingest',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OccupancyRoute = OccupancyRouteImport.update({
+  id: '/occupancy',
+  path: '/occupancy',
   getParentRoute: () => rootRouteImport,
 } as any)
 const QuarantineRoute = QuarantineRouteImport.update({
@@ -44,6 +50,7 @@ const TigersTigerIdRoute = TigersTigerIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
+  '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
   '/tigers/$tigerId': typeof TigersTigerIdRoute
   '/tigers/': typeof TigersIndexRoute
@@ -51,6 +58,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
+  '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
   '/tigers/$tigerId': typeof TigersTigerIdRoute
   '/tigers': typeof TigersIndexRoute
@@ -59,19 +67,33 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/ingest': typeof IngestRoute
+  '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
   '/tigers/$tigerId': typeof TigersTigerIdRoute
   '/tigers/': typeof TigersIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/ingest' | '/quarantine' | '/tigers/$tigerId' | '/tigers/'
+  fullPaths:
+    | '/'
+    | '/ingest'
+    | '/occupancy'
+    | '/quarantine'
+    | '/tigers/$tigerId'
+    | '/tigers/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/ingest' | '/quarantine' | '/tigers/$tigerId' | '/tigers'
+  to:
+    | '/'
+    | '/ingest'
+    | '/occupancy'
+    | '/quarantine'
+    | '/tigers/$tigerId'
+    | '/tigers'
   id:
     | '__root__'
     | '/'
     | '/ingest'
+    | '/occupancy'
     | '/quarantine'
     | '/tigers/$tigerId'
     | '/tigers/'
@@ -80,6 +102,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   IngestRoute: typeof IngestRoute
+  OccupancyRoute: typeof OccupancyRoute
   QuarantineRoute: typeof QuarantineRoute
   TigersTigerIdRoute: typeof TigersTigerIdRoute
   TigersIndexRoute: typeof TigersIndexRoute
@@ -99,6 +122,13 @@ declare module '@tanstack/react-router' {
       path: '/ingest'
       fullPath: '/ingest'
       preLoaderRoute: typeof IngestRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/occupancy': {
+      id: '/occupancy'
+      path: '/occupancy'
+      fullPath: '/occupancy'
+      preLoaderRoute: typeof OccupancyRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/quarantine': {
@@ -128,6 +158,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   IngestRoute: IngestRoute,
+  OccupancyRoute: OccupancyRoute,
   QuarantineRoute: QuarantineRoute,
   TigersTigerIdRoute: TigersTigerIdRoute,
   TigersIndexRoute: TigersIndexRoute,
