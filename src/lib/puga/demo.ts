@@ -193,7 +193,7 @@ export const QUARANTINE: QuarantineItem[] = Array.from({ length: 14 }).map((_, i
     status: "quarantined",
     reason: privacy
       ? "Human detected — withheld under privacy policy"
-      : ["Empty frame (grass movement)", "Heat shimmer", "Rain streaks", "Light shift"][i % 4],
+      : ["Empty frame (grass movement)", "Heat shimmer", "Rain streaks", "Light shift"][i % 4]!,
     confidence: conf,
     capture_timestamp: new Date(Date.UTC(2026, 6, 21, 3 + i, 12)).toISOString(),
     quarantined_at: new Date(Date.UTC(2026, 6, 22, 9, 30)).toISOString(),
