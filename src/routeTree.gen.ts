@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlertsRouteImport } from './routes/alerts'
 import { Route as IngestRouteImport } from './routes/ingest'
 import { Route as OccupancyRouteImport } from './routes/occupancy'
 import { Route as QuarantineRouteImport } from './routes/quarantine'
@@ -19,6 +20,11 @@ import { Route as TigersTigerIdRouteImport } from './routes/tigers.$tigerId'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AlertsRoute = AlertsRouteImport.update({
+  id: '/alerts',
+  path: '/alerts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IngestRoute = IngestRouteImport.update({
@@ -49,6 +55,7 @@ const TigersTigerIdRoute = TigersTigerIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/ingest': typeof IngestRoute
   '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
@@ -57,6 +64,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/ingest': typeof IngestRoute
   '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
@@ -66,6 +74,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alerts': typeof AlertsRoute
   '/ingest': typeof IngestRoute
   '/occupancy': typeof OccupancyRoute
   '/quarantine': typeof QuarantineRoute
@@ -76,6 +85,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/alerts'
     | '/ingest'
     | '/occupancy'
     | '/quarantine'
@@ -84,6 +94,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/alerts'
     | '/ingest'
     | '/occupancy'
     | '/quarantine'
@@ -92,6 +103,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/alerts'
     | '/ingest'
     | '/occupancy'
     | '/quarantine'
@@ -101,6 +113,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlertsRoute: typeof AlertsRoute
   IngestRoute: typeof IngestRoute
   OccupancyRoute: typeof OccupancyRoute
   QuarantineRoute: typeof QuarantineRoute
@@ -115,6 +128,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/alerts': {
+      id: '/alerts'
+      path: '/alerts'
+      fullPath: '/alerts'
+      preLoaderRoute: typeof AlertsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ingest': {
@@ -157,6 +177,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlertsRoute: AlertsRoute,
   IngestRoute: IngestRoute,
   OccupancyRoute: OccupancyRoute,
   QuarantineRoute: QuarantineRoute,
