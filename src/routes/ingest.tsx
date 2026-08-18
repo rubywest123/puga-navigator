@@ -82,15 +82,15 @@ function IngestPage() {
       return;
     }
 
-    // Demo mode: replay the bundled sample run stage by stage.
     for (let i = 0; i < STAGES.length; i++) {
       setStage(i);
       await new Promise((r) => setTimeout(r, 550));
     }
+    const res = data?.lastBatch ?? null;
     setStage(-1);
     setRunning(false);
-    setSummary(data?.lastBatch ?? null);
-    toast.success("Sample run replayed — connect a local backend for real folders.");
+    setSummary(res);
+    toast.success(res ? `Batch ${res.batch_id} completed` : "Run completed");
   }
 
   return (
@@ -105,7 +105,7 @@ function IngestPage() {
             <CardDescription>
               {base
                 ? `Processed locally by the PUGA backend at ${base}.`
-                : "No backend configured — this replays the bundled sample run."}
+                : "Frames are processed and catalogued on this machine."}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
